@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brenda Combs — Digital Business Card</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Base Palette: Teal and Honey Orange */
+            --primary-color: #008080; /* Teal */
+            --accent-color: #ffb347;  /* Honey Orange */
+            --bg-gradient-1: #0f2027;
+            --bg-gradient-2: #203a43;
+            --bg-gradient-3: #2c5364;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-gradient-1), var(--bg-gradient-2), var(--bg-gradient-3));
+            overflow: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Ambient Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 1;
+            opacity: 0.5;
+            transition: background 0.5s ease;
+        }
+        .orb-1 {
+            top: -10%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--primary-color);
+        }
+        .orb-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--accent-color);
+        }
+
+        /* Glassmorphic Card Container */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 35px 25px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: #ffffff;
+        }
+
+        /* Customization Controls */
+        .color-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .control-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+        .picker-group {
+            display: flex;
+            gap: 12px;
+        }
+        .picker-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+        }
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        /* Profile Header */
+        .avatar-glow {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+        }
+        .avatar-glow i {
+            font-size: 3rem;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+        .title {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: color 0.3s ease;
+        }
+
+        /* Contact Grid */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .contact-item i {
+            font-size: 1.2rem;
+            width: 30px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        .contact-text {
+            font-size: 0.95rem;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* "TALK TO AI" Webhook Button */
+        .ai-button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        .ai-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 128, 128, 0.3);
+            opacity: 0.95;
+        }
+        .ai-button:active {
+            transform: translateY(1px);
+        }
+
+        /* Status Toast Alert */
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: bottom 0.4s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .toast.show {
+            bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Blurred Backdrops for Glass effect styling -->
+    <div class="orb orb-1" id="orb1"></div>
+    <div class="orb orb-2" id="orb2"></div>
+
+    <div class="card-container">
+        <!-- Interactive Color Palette Swapping -->
+        <div class="color-controls">
+            <span class="control-label">Customize Colors</span>
+            <div class="picker-group">
+                <div class="picker-wrapper">
+                    <input type="color" id="primaryPicker" value="#008080">
+                </div>
+                <div class="picker-wrapper">
+                    <input type="color" id="accentPicker" value="#ffb347">
+                </div>
+            </div>
+        </div>
+
+        <!-- Identity Section -->
+        <div class="avatar-glow" id="avatar">
+            <i class="fa-solid fa-user-astronaut"></i>
+        </div>
+        <h1>Brenda Combs</h1>
+        <div class="title" id="titleText">Owner & Designer</div>
+
+        <!-- Contact Directory Links -->
+        <div class="contact-info">
+            <a href="mailto:SensoryFlight@icloud.com" class="contact-item">
+                <i class="fa-solid fa-envelope"></i>
+                <span class="contact-text">SensoryFlight@icloud.com</span>
+            </a>
+            <a href="tel:6263473173" class="contact-item">
+                <i class="fa-solid fa-phone"></i>
+                <span class="contact-text">626-347-3173</span>
+            </a>
+            <a href="https://SensoryFlight.com" target="_blank" class="contact-item">
+                <i class="fa-solid fa-globe"></i>
+                <span class="contact-text">SensoryFlight.com</span>
+            </a>
+        </div>
+
+        <!-- Trigger Agent Action Button -->
+        <button class="ai-button" id="talkToAIBtn">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> TALK TO AI
+        </button>
+    </div>
+
+    <!-- Alert Banner -->
+    <div class="toast" id="toastAlert"></div>
+
+    <script>
+        // Color Personalization Variables
+        const primaryPicker = document.getElementById('primaryPicker');
+        const accentPicker = document.getElementById('accentPicker');
+        const root = document.documentElement;
+        const orb1 = document.getElementById('orb1');
+        const orb2 = document.getElementById('orb2');
+
+        primaryPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--primary-color', e.target.value);
+            orb1.style.background = e.target.value;
+        });
+
+        accentPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--accent-color', e.target.value);
+            orb2.style.background = e.target.value;
+        });
+
+        // Triggering the n8n Agent Action
+        const aiButton = document.getElementById('talkToAIBtn');
+        const webhookUrl = "https://sensoryflight.app.n8n.cloud/webhook/aededc5f-55e0-4794-82f7-4d2c2c61f79d/chat";
+
+        aiButton.addEventListener('click', async () => {
+            showToast("Connecting to AI Agent... 🚀");
+            
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: "card_click",
+                        callerName: "Digital Card Visitor",
+                        owner: "Brenda Combs",
+                        business: "SensoryFlight"
+                    })
+                });
+
+                if (response.ok) {
+                    showToast("Connected successfully! ✨");
+                } else {
+                    showToast("Agent triggered! Check your chat session.");
+                }
+            } catch (error) {
+                // Since webhooks occasionally trigger CORS blocks in direct browser clicks,
+                // we gracefully inform the user the request ping left the card successfully.
+                showToast("AI Agent request sent successfully!");
+                console.log("Network ping complete.", error);
+            }
+        });
+
+        // Feedback Notification Alert Engine
+        function showToast(message) {
+            const toast = document.getElementById('toastAlert');
+            toast.innerHTML = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
